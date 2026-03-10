@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA Implementation - ShopEase</title>
+    <link rel="stylesheet" href="dsa-styles.css">
+</head>
+<body>
+    <div class="dsa-container">
+        <h1>Data Structures & Algorithms Demonstration</h1>
+        <h2>ShopEase E-commerce Platform</h2>
+        
+        <div class="dsa-grid">
+            <!-- Array Operations -->
+            <div class="dsa-card">
+                <h3>📦 Array Operations</h3>
+                <div class="array-demo">
+                    <h4>Product Inventory</h4>
+                    <pre id="arrayOutput"></pre>
+                    <button onclick="demoArrayOperations()">Show Array Operations</button>
+                </div>
+            </div>
+            
+            <!-- Stack Operations -->
+            <div class="dsa-card">
+                <h3>📚 Stack (Browsing History)</h3>
+                <div class="stack-demo">
+                    <input type="text" id="pageInput" placeholder="Enter page name">
+                    <button onclick="pushToStack()">Push to Stack</button>
+                    <button onclick="popFromStack()">Pop from Stack</button>
+                    <button onclick="peekStack()">Peek Stack</button>
+                    <pre id="stackOutput"></pre>
+                </div>
+            </div>
+            
+            <!-- Queue Operations -->
+            <div class="dsa-card">
+                <h3>🔄 Queue (Order Processing)</h3>
+                <div class="queue-demo">
+                    <input type="text" id="orderInput" placeholder="Enter order ID">
+                    <button onclick="enqueueOrder()">Enqueue Order</button>
+                    <button onclick="dequeueOrder()">Dequeue Order</button>
+                    <button onclick="processQueue()">Process All</button>
+                    <pre id="queueOutput"></pre>
+                </div>
+            </div>
+            
+            <!-- Searching Algorithms -->
+            <div class="dsa-card">
+                <h3>🔍 Searching Algorithms</h3>
+                <div class="search-demo">
+                    <input type="text" id="searchInput" placeholder="Search product">
+                    <button onclick="linearSearch()">Linear Search</button>
+                    <button onclick="binarySearch()">Binary Search</button>
+                    <pre id="searchOutput"></pre>
+                </div>
+            </div>
+            
+            <!-- Sorting Algorithms -->
+            <div class="dsa-card">
+                <h3>📊 Sorting Algorithms</h3>
+                <div class="sort-demo">
+                    <button onclick="bubbleSort()">Bubble Sort</button>
+                    <button onclick="quickSort()">Quick Sort</button>
+                    <button onclick="mergeSort()">Merge Sort</button>
+                    <pre id="sortOutput"></pre>
+                </div>
+            </div>
+            
+            <!-- Console Output -->
+            <div class="dsa-card">
+                <h3>🖥️ Console Output</h3>
+                <div class="console-output" id="consoleOutput">
+                    <p>Click any button to see console logs...</p>
+                </div>
+                <button onclick="clearConsole()">Clear Console</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="dsa-script.js"></script>
+</body>
+</html>

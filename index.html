@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BuyNew - Modern E-Commerce Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header with Navigation -->
+    <header>
+        <div class="top-header">
+            <div class="logo">
+                <h1>BuyNew<span>.</span></h1>
+                <p class="tagline">Shop New, Buy Latest</p>
+            </div>
+            <div class="search-bar">
+                <select id="searchCategory">
+                    <option value="all">All Categories</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="gaming">Gaming</option>
+                    <option value="fashion">Fashion</option>
+                    <option value="books">Books</option>
+                    <option value="home">Home & Kitchen</option>
+                </select>
+                <input type="text" id="searchInput" placeholder="Search products...">
+                <button id="searchBtn"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="user-actions">
+                <div class="user-profile" id="userProfileBtn">
+                    <i class="fas fa-user"></i>
+                    <span id="userNameDisplay">Sign In</span>
+                </div>
+                <div class="cart-icon" id="cartIcon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cartCount">0</span>
+                </div>
+            </div>
+        </div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#"><i class="fas fa-bars"></i> All</a></li>
+                <li><a href="#">Today's Deals</a></li>
+                <li><a href="#">Customer Service</a></li>
+                <li><a href="#">Registry</a></li>
+                <li><a href="#">Gift Cards</a></li>
+                <li><a href="#">Sell</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Banner -->
+        <section class="hero-banner">
+            <div class="banner-content">
+                <h2>Welcome to BuyNew</h2>
+                <p>Your one-stop destination for the latest products</p>
+                <button class="shop-now-btn">Shop Now</button>
+            </div>
+        </section>
+
+        <!-- Category Filter -->
+        <section class="category-filter">
+            <h3>Shop by Category</h3>
+            <div class="filter-options">
+                <button class="filter-btn active" data-category="all">All Products</button>
+                <button class="filter-btn" data-category="electronics">Electronics</button>
+                <button class="filter-btn" data-category="gaming">Gaming</button>
+                <button class="filter-btn" data-category="fashion">Fashion</button>
+                <button class="filter-btn" data-category="books">Books</button>
+                <button class="filter-btn" data-category="home">Home & Kitchen</button>
+            </div>
+        </section>
+
+        <!-- Products Grid -->
+        <section class="products-section">
+            <h3>Featured Products</h3>
+            <div class="sort-options">
+                <label>Sort by:</label>
+                <select id="sortSelect">
+                    <option value="default">Featured</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="name">Name</option>
+                    <option value="rating">Rating</option>
+                </select>
+            </div>
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be loaded dynamically -->
+            </div>
+        </section>
+
+        <!-- Cart Sidebar -->
+        <div class="cart-sidebar" id="cartSidebar">
+            <div class="cart-header">
+                <h3>Your BuyNew Cart</h3>
+                <span id="closeCart">&times;</span>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <!-- Cart items will appear here -->
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span id="cartTotal">₹0</span>
+                </div>
+                <button class="checkout-btn" id="checkoutBtn">Proceed to Checkout</button>
+            </div>
+        </div>
+
+        <!-- Sign In Modal -->
+        <div class="modal" id="signInModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Sign In to BuyNew</h2>
+                    <span class="close-modal" id="closeSignIn">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <form id="signInForm">
+                        <div class="form-group">
+                            <label for="email">Email or Username</label>
+                            <input type="text" id="email" placeholder="Enter email or username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" placeholder="Enter password" required>
+                            <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+                        </div>
+                        <div class="form-options">
+                            <label>
+                                <input type="checkbox" id="rememberMe"> Remember me
+                            </label>
+                            <a href="#" id="forgotPassword">Forgot Password?</a>
+                        </div>
+                        <button type="submit" class="btn-signin">Sign In</button>
+                    </form>
+                    <div class="signup-link">
+                        <p>New to BuyNew? <a href="#" id="showSignUp">Create an account</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sign Up Modal -->
+        <div class="modal" id="signUpModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Join BuyNew</h2>
+                    <span class="close-modal" id="closeSignUp">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <form id="signUpForm">
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" placeholder="Enter your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newEmail">Email</label>
+                            <input type="email" id="newEmail" placeholder="Enter email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newUsername">Username</label>
+                            <input type="text" id="newUsername" placeholder="Choose username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newPassword">Password</label>
+                            <input type="password" id="newPassword" placeholder="Create password" required>
+                            <small>Must be at least 8 characters</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm Password</label>
+                            <input type="password" id="confirmPassword" placeholder="Confirm password" required>
+                        </div>
+                        <button type="submit" class="btn-signin">Create Account</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Modal -->
+        <div class="modal" id="paymentModal">
+            <div class="modal-content payment-modal">
+                <div class="modal-header">
+                    <h2>BuyNew Checkout</h2>
+                    <span class="close-modal" id="closePayment">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div class="order-summary" id="orderSummary">
+                        <h3>Order Summary</h3>
+                        <div id="orderItems"></div>
+                        <div class="summary-total">
+                            <span>Total Amount:</span>
+                            <span id="paymentTotal">₹0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="payment-methods">
+                        <h3>Select Payment Method</h3>
+                        <div class="payment-options">
+                            <label class="payment-option">
+                                <input type="radio" name="paymentMethod" value="card" checked>
+                                <i class="fas fa-credit-card"></i> Credit/Debit Card
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="paymentMethod" value="upi">
+                                <i class="fas fa-mobile-alt"></i> UPI
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="paymentMethod" value="netbanking">
+                                <i class="fas fa-university"></i> Net Banking
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="paymentMethod" value="cod">
+                                <i class="fas fa-truck"></i> Cash on Delivery
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Card Payment Form -->
+                    <div id="cardPaymentForm" class="payment-form">
+                        <div class="form-group">
+                            <label for="cardNumber">Card Number</label>
+                            <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="expiryDate">Expiry Date</label>
+                                <input type="text" id="expiryDate" placeholder="MM/YY">
+                            </div>
+                            <div class="form-group">
+                                <label for="cvv">CVV</label>
+                                <input type="text" id="cvv" placeholder="123" maxlength="3">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="cardName">Name on Card</label>
+                            <input type="text" id="cardName" placeholder="As shown on card">
+                        </div>
+                    </div>
+
+                    <!-- UPI Payment Form -->
+                    <div id="upiPaymentForm" class="payment-form" style="display: none;">
+                        <div class="form-group">
+                            <label for="upiId">UPI ID</label>
+                            <input type="text" id="upiId" placeholder="username@okhdfcbank">
+                        </div>
+                        <div class="qr-code">
+                            <p>Scan BuyNew QR Code to pay</p>
+                            <div class="qr-placeholder">
+                                <i class="fas fa-qrcode"></i>
+                                <span>BuyNew Pay</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Net Banking Form -->
+                    <div id="netbankingForm" class="payment-form" style="display: none;">
+                        <div class="form-group">
+                            <label for="bank">Select Bank</label>
+                            <select id="bank">
+                                <option value="">Choose your bank</option>
+                                <option value="sbi">State Bank of India</option>
+                                <option value="hdfc">HDFC Bank</option>
+                                <option value="icici">ICICI Bank</option>
+                                <option value="axis">Axis Bank</option>
+                                <option value="kotak">Kotak Mahindra</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Cash on Delivery Message -->
+                    <div id="codMessage" class="payment-form" style="display: none;">
+                        <div class="cod-info">
+                            <i class="fas fa-info-circle"></i>
+                            <p>Pay with cash when your BuyNew order arrives. Additional ₹50 handling fee may apply.</p>
+                        </div>
+                    </div>
+
+                    <button class="btn-pay" id="payNowBtn">Complete Payment</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Success Modal -->
+        <div class="modal" id="paymentSuccessModal">
+            <div class="modal-content success-modal">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h2>Thank You!</h2>
+                <p>Your BuyNew order is confirmed</p>
+                <div class="order-details" id="successOrderDetails"></div>
+                <button class="btn-continue" id="continueShopping">Continue Shopping</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About BuyNew</h4>
+                <ul>
+                    <li><a href="#">Our Story</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Connect with BuyNew</h4>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Instagram</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Sell on BuyNew</h4>
+                <ul>
+                    <li><a href="#">Become a Seller</a></li>
+                    <li><a href="#">Affiliate Program</a></li>
+                    <li><a href="#">Advertise</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 BuyNew Modern E-Commerce Platform. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
