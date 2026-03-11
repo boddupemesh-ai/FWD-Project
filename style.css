@@ -16,7 +16,7 @@
     --error-color: #f44336;
     --surface: #ffffff;
     --shadow: 0 2px 10px rgba(0,0,0,0.1);
-    --nav-bg: #232f3e;
+    --nav-bg: #acc8e5;;
 }
 
 body {
@@ -1278,4 +1278,5 @@ footer {
     .no-print {
         display: none;
     }
+
 }
