@@ -1,0 +1,212 @@
+import java.util.*;
+
+public class BuyNewDSA {
+    static Scanner sc = new Scanner(System.in);
+    static ArrayList<Product> products = new ArrayList<>();
+    static Stack<String> history = new Stack<>();
+    static Queue<Order> orderQueue = new LinkedList<>();
+    static HashMap<String, User> users = new HashMap<>();
+    static User currentUser = null;
+    static ArrayList<Product> cart = new ArrayList<>();
+
+    public static void main(String[] args) {
+        initProducts();
+        users.put("alice", new User("Alice", "pass123"));
+        
+        while (true) {
+            System.out.println("\n=== BUYNEW E-COMMERCE PLATFORM ===");
+            System.out.println("1. Login");
+            System.out.println("2. Browse Products");           // CO2: ArrayList
+            System.out.println("3. Search Product");  // CO1: Searching
+            System.out.println("4. Sort Products");      // CO1: Sorting
+            System.out.println("5. Add to Cart");
+            System.out.println("6. View Cart");
+            System.out.println("7. Checkout");                  // CO3: Queue
+            System.out.println("8. View History");              // CO3: Stack
+            System.out.println("9. View Users");              // CO4: Hashing
+            System.out.println("10. Featured Products");    // CO4: Priority Queue
+            System.out.println("11. Exit");
+            System.out.print("Choice: ");
+            
+            int choice = sc.nextInt(); sc.nextLine();
+            switch(choice) {
+                case 1: login(); break;
+                case 2: browseProducts(); break;
+                case 3: searchMenu(); break;
+                case 4: sortMenu(); break;
+                case 5: addToCart(); break;
+                case 6: viewCart(); break;
+                case 7: checkout(); break;
+                case 8: viewHistory(); break;
+                case 9: viewUsers(); break;
+                case 10: featuredProducts(); break;
+                case 11: System.exit(0);
+            }
+        }
+    }
+
+    static void initProducts() {
+        products.add(new Product(1, "Samsung TV", 49999, 4.5));
+        products.add(new Product(2, "iPhone 15", 134900, 4.8));
+        products.add(new Product(3, "MacBook", 169900, 4.9));
+        products.add(new Product(4, "Sony Headphones", 29990, 4.7));
+        products.add(new Product(5, "PS5", 54990, 4.9));
+        products.add(new Product(6, "Nike Shoes", 9999, 4.3));
+        products.add(new Product(7, "Book", 499, 4.6));
+        products.add(new Product(8, "Watch", 6999, 4.5));
+    }
+
+    // CO1: LINEAR SEARCH O(n)
+    static Product linearSearch(String name) {
+        for (Product p : products) 
+            if (p.name.toLowerCase().contains(name.toLowerCase())) return p;
+        return null;
+    }
+
+    // CO1: BINARY SEARCH O(log n) - requires sorting first
+    static Product binarySearch(int id) {
+        ArrayList<Product> sorted = new ArrayList<>(products);
+        sorted.sort((a,b) -> a.id - b.id);
+        int l=0, r=sorted.size()-1;
+        while(l<=r) {
+            int m = (l+r)/2;
+            if(sorted.get(m).id == id) return sorted.get(m);
+            if(sorted.get(m).id < id) l = m+1;
+            else r = m-1;
+        }
+        return null;
+    }
+
+    // CO1: BUBBLE SORT O(n²)
+    static void bubbleSort() {
+        ArrayList<Product> sorted = new ArrayList<>(products);
+        for(int i=0; i<sorted.size()-1; i++)
+            for(int j=0; j<sorted.size()-i-1; j++)
+                if(sorted.get(j).name.compareTo(sorted.get(j+1).name) > 0)
+                    Collections.swap(sorted, j, j+1);
+        System.out.println("Bubble Sort (A-Z):");
+        sorted.forEach(p -> System.out.println("  "+p.name));
+    }
+
+    // CO1: QUICK SORT O(n log n)
+    static void quickSort(ArrayList<Product> list, int low, int high) {
+        if(low < high) {
+            int pi = partition(list, low, high);
+            quickSort(list, low, pi-1);
+            quickSort(list, pi+1, high);
+        }
+    }
+    static int partition(ArrayList<Product> list, int low, int high) {
+        double pivot = list.get(high).price;
+        int i = low-1;
+        for(int j=low; j<high; j++)
+            if(list.get(j).price < pivot) Collections.swap(list, ++i, j);
+        Collections.swap(list, i+1, high);
+        return i+1;
+    }
+
+    // CO3: STACK (LIFO) - Browsing History
+    static void viewHistory() {
+        System.out.println("Browsing History (Stack): "+history);
+    }
+
+    // CO3: QUEUE (FIFO) - Order Processing
+    static void checkout() {
+        if(cart.isEmpty()) { System.out.println("Cart empty"); return; }
+        double total = cart.stream().mapToDouble(p -> p.price).sum();
+        Order order = new Order("ORD"+System.currentTimeMillis(), total);
+        orderQueue.offer(order); // ENQUEUE
+        System.out.println("Order added to queue. Total: ₹"+total);
+        System.out.println("Queue size: "+orderQueue.size());
+        cart.clear();
+        
+        // Process one order (DEQUEUE demo)
+        if(!orderQueue.isEmpty()) {
+            Order processed = orderQueue.poll();
+            System.out.println("Processing: "+processed.id);
+        }
+    }
+
+    // CO4: HASH MAP - User Authentication
+    static void login() {
+        System.out.print("Username: "); String u = sc.nextLine();
+        System.out.print("Password: "); String p = sc.nextLine();
+        User user = users.get(u);
+        if(user != null && user.pass.equals(p)) {
+            currentUser = user;
+            history.push("Logged in"); // Stack push
+            System.out.println("Welcome "+user.name);
+        } else System.out.println("Login failed");
+    }
+
+    // CO4: PRIORITY QUEUE (HEAP) - Featured Products
+    static void featuredProducts() {
+        PriorityQueue<Product> heap = new PriorityQueue<>(
+            (a,b) -> Double.compare(b.rating, a.rating));
+        heap.addAll(products);
+        System.out.println("Top 3 Featured (by rating):");
+        for(int i=0; i<3 && !heap.isEmpty(); i++)
+            System.out.println("  "+(i+1)+". "+heap.poll().name+" "+heap.poll().rating+"★");
+    }
+
+    static void browseProducts() { 
+        products.forEach(p -> System.out.println(p.id+". "+p.name+" ₹"+p.price)); 
+    }
+    
+    static void searchMenu() {
+        System.out.print("Search by name (linear): ");
+        Product p = linearSearch(sc.nextLine());
+        System.out.println(p != null ? "Found: "+p.name : "Not found");
+        
+        System.out.print("Search by ID (binary): ");
+        Product p2 = binarySearch(sc.nextInt()); sc.nextLine();
+        System.out.println(p2 != null ? "Found: "+p2.name : "Not found");
+    }
+    
+    static void sortMenu() {
+        bubbleSort();
+        
+        ArrayList<Product> quickList = new ArrayList<>(products);
+        long start = System.nanoTime();
+        quickSort(quickList, 0, quickList.size()-1);
+        System.out.println("Quick Sort (Price low-high):");
+        quickList.subList(0,3).forEach(p -> System.out.println("  "+p.name+" ₹"+p.price));
+        System.out.println("Time: "+(System.nanoTime()-start)+" ns");
+    }
+    
+    static void addToCart() {
+        browseProducts();
+        System.out.print("Enter product ID: ");
+        int id = sc.nextInt(); sc.nextLine();
+        products.stream().filter(p -> p.id==id).findFirst().ifPresentOrElse(
+            p -> { cart.add(p); System.out.println(p.name+" added to cart"); },
+            () -> System.out.println("Not found")
+        );
+    }
+    
+    static void viewCart() { 
+        if(cart.isEmpty()) System.out.println("Cart empty");
+        else cart.forEach(p -> System.out.println(p.name+" ₹"+p.price));
+    }
+    
+    static void viewUsers() {
+        System.out.println("Hash Table Contents:");
+        users.forEach((k,v) -> System.out.println("  "+k+" → "+v.name));
+    }
+}
+
+// Model Classes
+class Product {
+    int id; String name; double price; double rating;
+    Product(int id, String n, double p, double r) { this.id=id; name=n; price=p; rating=r; }
+}
+
+class User {
+    String name, pass;
+    User(String n, String p) { name=n; pass=p; }
+}
+
+class Order {
+    String id; double amount;
+    Order(String i, double a) { id=i; amount=a; }
+}
